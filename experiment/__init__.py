@@ -38,7 +38,7 @@ class Experiment(object):
             "3/2" | "5fold" | "10fold"
         run_type : str
             'train' or 'test'
-        model : class/type
+        model_class : class/type
             Class which handles training or testing the data.
         hyperparameters : dict
             dict keyed by hyperparameter name.
@@ -53,7 +53,7 @@ class Experiment(object):
         self.input_files = self._init_input(input)
         self.paths = self._init_paths(feature_path, output_path)
 
-        self.feature_extractor = feature_extractor()
+        self.feature_extractor = feature_extractor_class()
         self.sample_factory = self._init_factory(data_split_mode, run_type)
         self.run_type = run_type
         self.max_epochs = max_epochs
@@ -115,9 +115,9 @@ class Experiment(object):
         """ Save paths to path dict and make sure they exist."""
         path_dict = {}
         if not os.path.exists(feature_path):
-            os.mkdirs(feature_path)
+            os.makedirs(feature_path)
         if not os.path.exists(output_path):
-            os.mkdirs(output_path)
+            os.makedirs(output_path)
         path_dict["feature_path"] = feature_path
         path_dict["output_path"] = output_path
         return path_dict

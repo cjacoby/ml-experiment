@@ -1,7 +1,10 @@
 import yaml
+import logging
 import argparse
 
-# from Experiment import Experiment
+from experiment import Experiment
+from experiment import feature_extractor
+from experiment import model
 
 logger = logging.getLogger("mnist_experiment")
 logger.setLevel(logging.DEBUG)
@@ -15,9 +18,9 @@ logger.addHandler(ch)
 
 def setup_experiment(run_type, config_file="mnist_config.yaml", verbosity=None):
     experiment_config = {
-        "feature_extractor_class" : None,
+        "feature_extractor_class" : feature_extractor.FeatureExtractor,
         "run_type" : run_type,
-        "model" : None,
+        "model_class" : model.Model,
         "hyperparameters" : None,
         "verbosity" : verbosity
     }

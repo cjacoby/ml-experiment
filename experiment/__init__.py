@@ -54,7 +54,7 @@ class Experiment(object):
         self.paths = self._init_paths(feature_path, output_path)
 
         self.feature_extractor = feature_extractor_class()
-        self.sample_factory = self._init_factory(data_split_mode, run_type)
+        self.sample_factory = SampleFactory(self.input_files, data_split_mode, run_type)
         self.run_type = run_type
         self.max_epochs = max_epochs
         self.model = model_class(self.sample_factory, hyperparameters)
@@ -122,14 +122,6 @@ class Experiment(object):
         path_dict["output_path"] = output_path
         return path_dict
 
-    def _init_factory(self, data_split_mode, run_type):
-        " Initialize the sample factory from the data and the modes. "
-        if data_split_mode not in ["3/2", "5fold", "10fold"]:
-            raise ValueError("Invalid Test/Train split: {}".format(data_split_mode))
-        if run_type not in ["train", "test"]:
-            raise ValueError("Invalid run type: {}".format(self.run_type))
-
-        return SampleFactory(self.input_files, data_split_mode, run_type)
 
     def epoch_results(self):
         " Store the epoch results "
